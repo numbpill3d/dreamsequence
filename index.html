@@ -1,0 +1,2574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEMPORAL_BREACH.exe - SYSTEM_CORRUPTION_LEVEL_MAXIMUM</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Share+Tech+Mono&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --corruption-red: #ff0000;
+            --void-black: #000000;
+            --terminal-green: #00ff00;
+            --glitch-blue: #0080ff;
+            --static-gray: #333333;
+            --memory-purple: #8000ff;
+            --warning-yellow: #ffff00;
+            --death-orange: #ff8000;
+            --nuclear-cyan: #00ffff;
+        }
+        
+        body {
+            font-family: 'JetBrains Mono', 'Courier Prime', monospace;
+            background: linear-gradient(45deg, var(--void-black), var(--static-gray));
+            color: var(--terminal-green);
+            overflow-x: hidden;
+            animation: bodyGlitch 8s infinite;
+            cursor: crosshair;
+        }
+        
+        @keyframes bodyGlitch {
+            0%, 85%, 100% { 
+                filter: hue-rotate(0deg) contrast(1) brightness(1); 
+                transform: translateX(0);
+            }
+            5% { 
+                filter: hue-rotate(90deg) contrast(3) brightness(2); 
+                transform: translateX(-2px);
+            }
+            10% { 
+                filter: hue-rotate(180deg) contrast(2) brightness(3); 
+                transform: translateX(2px);
+            }
+            15% { 
+                filter: hue-rotate(270deg) contrast(4) saturate(5); 
+                transform: translateX(-1px);
+            }
+            20% {
+                filter: invert(1) hue-rotate(45deg);
+                transform: translateX(1px) skewX(1deg);
+            }
+        }
+        
+        .corruption-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 20% 50%, var(--corruption-red) 0%, transparent 20%),
+                radial-gradient(circle at 80% 20%, var(--glitch-blue) 0%, transparent 30%),
+                radial-gradient(circle at 40% 80%, var(--memory-purple) 0%, transparent 25%),
+                radial-gradient(circle at 60% 10%, var(--warning-yellow) 0%, transparent 15%),
+                radial-gradient(circle at 10% 90%, var(--death-orange) 0%, transparent 35%);
+            opacity: 0.08;
+            animation: corruptionPulse 6s infinite, dimensionalShift 12s infinite;
+            z-index: -2;
+        }
+        
+        @keyframes corruptionPulse {
+            0%, 100% { opacity: 0.08; transform: scale(1) rotate(0deg); }
+            25% { opacity: 0.15; transform: scale(1.05) rotate(1deg); }
+            50% { opacity: 0.25; transform: scale(1.1) rotate(-1deg); }
+            75% { opacity: 0.12; transform: scale(0.95) rotate(0.5deg); }
+        }
+        
+        @keyframes dimensionalShift {
+            0%, 100% { filter: blur(0px) hue-rotate(0deg); }
+            33% { filter: blur(1px) hue-rotate(120deg); }
+            66% { filter: blur(0.5px) hue-rotate(240deg); }
+        }
+        
+        .static-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23000"/><circle cx="10" cy="10" r="1" fill="%23333"/><circle cx="30" cy="20" r="0.5" fill="%23666"/><circle cx="60" cy="15" r="0.8" fill="%23444"/><circle cx="80" cy="30" r="0.6" fill="%23555"/><rect x="20" y="40" width="2" height="1" fill="%23222"/><rect x="70" y="70" width="1" height="2" fill="%23777"/></svg>') repeat;
+            opacity: 0.03;
+            animation: staticNoise 0.08s infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        @keyframes staticNoise {
+            0% { transform: translate(0, 0); opacity: 0.03; }
+            10% { transform: translate(-1px, 1px); opacity: 0.05; }
+            20% { transform: translate(1px, -1px); opacity: 0.02; }
+            30% { transform: translate(-1px, -1px); opacity: 0.04; }
+            40% { transform: translate(1px, 1px); opacity: 0.01; }
+            50% { transform: translate(0, -1px); opacity: 0.06; }
+            60% { transform: translate(-1px, 0); opacity: 0.03; }
+            70% { transform: translate(1px, 0); opacity: 0.05; }
+            80% { transform: translate(0, 1px); opacity: 0.02; }
+            90% { transform: translate(-1px, 1px); opacity: 0.04; }
+            100% { transform: translate(1px, -1px); opacity: 0.03; }
+        }
+        
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                transparent 50%, 
+                rgba(0, 255, 0, 0.02) 50%
+            );
+            background-size: 100% 4px;
+            animation: scanlineMove 0.1s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        @keyframes scanlineMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            max-width: 100%;
+            position: relative;
+        }
+        
+        .system-monitor {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--corruption-red);
+            padding: 8px;
+            font-size: 0.7rem;
+            font-family: 'Share Tech Mono', monospace;
+            z-index: 200;
+            min-width: 200px;
+        }
+        
+        .monitor-line {
+            display: flex;
+            justify-content: space-between;
+            margin: 2px 0;
+        }
+        
+        .monitor-value {
+            color: var(--corruption-red);
+            font-weight: bold;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, var(--void-black), var(--static-gray));
+            border-bottom: 3px solid var(--corruption-red);
+            padding: 1.5rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4);
+            backdrop-filter: blur(2px);
+        }
+        
+        .title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--corruption-red);
+            text-shadow: 0 0 15px var(--corruption-red), 2px 2px 0 var(--void-black);
+            animation: titleGlitch 2s infinite;
+            text-align: center;
+            letter-spacing: 2px;
+            position: relative;
+        }
+        
+        .title::before {
+            content: 'TEMPORAL_BREACH.exe - SYSTEM_CORRUPTION_LEVEL_MAXIMUM';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: var(--glitch-blue);
+            animation: titleGlitchLayer 2s infinite;
+            z-index: -1;
+        }
+        
+        @keyframes titleGlitch {
+            0%, 85%, 100% { 
+                transform: translateX(0) skewX(0deg); 
+                filter: blur(0px);
+            }
+            5% { 
+                transform: translateX(-3px) skewX(-2deg); 
+                filter: blur(1px);
+            }
+            10% { 
+                transform: translateX(3px) skewX(2deg); 
+                filter: blur(0.5px);
+            }
+            15% { 
+                transform: translateX(-2px) skewX(-1deg); 
+                filter: blur(1.5px);
+            }
+        }
+        
+        @keyframes titleGlitchLayer {
+            0%, 85%, 100% { 
+                transform: translateX(0) skewX(0deg); 
+                opacity: 0;
+            }
+            5% { 
+                transform: translateX(2px) skewX(1deg); 
+                opacity: 0.8;
+            }
+            10% { 
+                transform: translateX(-2px) skewX(-1deg); 
+                opacity: 0.6;
+            }
+            15% { 
+                transform: translateX(1px) skewX(0.5deg); 
+                opacity: 0.4;
+            }
+        }
+        
+        .nav {
+            background: var(--static-gray);
+            border-bottom: 2px solid var(--terminal-green);
+            padding: 0;
+            position: relative;
+        }
+        
+        .nav::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--corruption-red), var(--glitch-blue), var(--memory-purple));
+            animation: navPulse 3s infinite;
+        }
+        
+        @keyframes navPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-tab {
+            flex: 1;
+            min-width: 140px;
+            background: var(--void-black);
+            border-right: 1px solid var(--terminal-green);
+            border-top: 2px solid var(--terminal-green);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--corruption-red), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .nav-tab:hover::before {
+            left: 100%;
+        }
+        
+        .nav-tab button {
+            width: 100%;
+            padding: 15px 12px;
+            background: transparent;
+            color: var(--terminal-green);
+            border: none;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .nav-tab.active {
+            background: var(--corruption-red);
+            box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+        
+        .nav-tab.active button {
+            color: var(--void-black);
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+        }
+        
+        .nav-tab:hover {
+            background: var(--memory-purple);
+            animation: tabGlitch 0.3s ease;
+            transform: translateY(-2px);
+        }
+        
+        @keyframes tabGlitch {
+            0%, 100% { transform: translateY(-2px) skewX(0deg); }
+            25% { transform: translateY(-3px) skewX(-1deg); }
+            50% { transform: translateY(-1px) skewX(1deg); }
+            75% { transform: translateY(-2px) skewX(-0.5deg); }
+        }
+        
+        .main-content {
+            display: flex;
+            flex: 1;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            flex-wrap: wrap;
+            position: relative;
+        }
+        
+        .sidebar {
+            flex: 0 0 280px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid var(--terminal-green);
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+            box-shadow: inset 0 0 30px rgba(0, 255, 0, 0.1);
+            backdrop-filter: blur(5px);
+        }
+        
+        .sidebar-right {
+            order: 3;
+        }
+        
+        .sidebar h3 {
+            color: var(--corruption-red);
+            border-bottom: 2px solid var(--corruption-red);
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+        
+        .sidebar h3::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--glitch-blue);
+            animation: underlineGrow 2s infinite;
+        }
+        
+        @keyframes underlineGrow {
+            0%, 100% { width: 0%; }
+            50% { width: 100%; }
+        }
+        
+        .sidebar ul {
+            list-style: none;
+        }
+        
+        .sidebar li {
+            padding: 0.8rem 0;
+            border-bottom: 1px dotted var(--static-gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sidebar li::before {
+            content: '> ';
+            color: var(--corruption-red);
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .sidebar li:hover::before {
+            opacity: 1;
+        }
+        
+        .sidebar li:hover {
+            color: var(--corruption-red);
+            padding-left: 15px;
+            background: rgba(255, 0, 0, 0.05);
+            animation: sidebarGlitch 0.2s ease;
+            transform: translateX(5px);
+        }
+        
+        @keyframes sidebarGlitch {
+            0%, 100% { transform: translateX(5px) skewX(0deg); }
+            25% { transform: translateX(7px) skewX(-1deg); }
+            50% { transform: translateX(3px) skewX(1deg); }
+            75% { transform: translateX(6px) skewX(-0.5deg); }
+        }
+        
+        .content-area {
+            flex: 1;
+            min-width: 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .content-columns {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .content-column {
+            flex: 1;
+            min-width: 320px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid var(--terminal-green);
+            padding: 2rem;
+            border-radius: 0;
+            box-shadow: inset 0 0 40px rgba(0, 255, 0, 0.08);
+            backdrop-filter: blur(3px);
+            position: relative;
+        }
+        
+        .content-column::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--corruption-red);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .content-column:hover::before {
+            opacity: 0.3;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeInGlitch 0.7s ease-in;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeInGlitch {
+            0% { 
+                opacity: 0; 
+                transform: translateY(20px) skewX(3deg) scale(0.95); 
+                filter: blur(2px);
+            }
+            30% { 
+                opacity: 0.3; 
+                transform: translateY(-5px) skewX(-1deg) scale(1.02); 
+                filter: blur(1px);
+            }
+            60% { 
+                opacity: 0.8; 
+                transform: translateY(2px) skewX(0.5deg) scale(0.98); 
+                filter: blur(0.5px);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) skewX(0deg) scale(1); 
+                filter: blur(0px);
+            }
+        }
+        
+        .dream-entry {
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            border-left: 4px solid var(--corruption-red);
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.03), rgba(0, 0, 0, 0.8));
+            position: relative;
+            backdrop-filter: blur(1px);
+        }
+        
+        .dream-entry::before {
+            content: "[CORRUPTED_MEMORY_" attr(data-timestamp) "]";
+            position: absolute;
+            top: -12px;
+            left: -2px;
+            background: var(--corruption-red);
+            color: var(--void-black);
+            padding: 4px 12px;
+            font-size: 0.65rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .dream-entry::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--corruption-red);
+            clip-path: polygon(0 0, 100% 0, 100% 100%);
+        }
+        
+        .dream-timestamp {
+            color: var(--memory-purple);
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .dream-text {
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .glitch-text {
+            position: relative;
+            animation: textGlitch 3s infinite;
+            display: inline-block;
+        }
+        
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch-text::before {
+            animation: glitchBefore 3s infinite;
+            color: var(--glitch-blue);
+            z-index: -1;
+        }
+        
+        .glitch-text::after {
+            animation: glitchAfter 3s infinite;
+            color: var(--memory-purple);
+            z-index: -2;
+        }
+        
+        @keyframes textGlitch {
+            0%, 90%, 100% { 
+                color: var(--terminal-green);
+                text-shadow: none;
+                transform: translateX(0);
+            }
+            5% { 
+                color: var(--corruption-red);
+                text-shadow: 3px 0 var(--glitch-blue), -3px 0 var(--memory-purple);
+                transform: translateX(-2px);
+            }
+            10% {
+                color: var(--warning-yellow);
+                text-shadow: -2px 0 var(--nuclear-cyan), 2px 0 var(--death-orange);
+                transform: translateX(2px);
+            }
+        }
+        
+        @keyframes glitchBefore {
+            0%, 90%, 100% { 
+                transform: translateX(0) skewX(0deg);
+                opacity: 0;
+            }
+            5% { 
+                transform: translateX(-2px) skewX(-5deg);
+                opacity: 0.8;
+            }
+        }
+        
+        @keyframes glitchAfter {
+            0%, 90%, 100% { 
+                transform: translateX(0) skewX(0deg);
+                opacity: 0;
+            }
+            10% { 
+                transform: translateX(2px) skewX(5deg);
+                opacity: 0.6;
+            }
+        }
+        
+        .corrupted-word {
+            color: var(--corruption-red);
+            text-decoration: line-through;
+            animation: wordCorruption 1.5s infinite;
+            position: relative;
+            font-weight: bold;
+        }
+        
+        .corrupted-word::after {
+            content: '[ERROR]';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.6rem;
+            color: var(--warning-yellow);
+            background: var(--void-black);
+            padding: 2px 4px;
+            opacity: 0;
+            animation: errorPopup 1.5s infinite;
+        }
+        
+        @keyframes wordCorruption {
+            0%, 70%, 100% { 
+                opacity: 1; 
+                transform: translateX(0) scale(1);
+            }
+            80%, 90% { 
+                opacity: 0.2; 
+                transform: translateX(-1px) scale(1.05);
+            }
+        }
+        
+        @keyframes errorPopup {
+            0%, 90%, 100% { opacity: 0; transform: translateX(-50%) translateY(0); }
+            5%, 15% { opacity: 1; transform: translateX(-50%) translateY(-5px); }
+        }
+        
+        .time-fragment {
+            display: inline-block;
+            color: var(--glitch-blue);
+            font-weight: bold;
+            animation: timeShift 2.5s infinite;
+            position: relative;
+            background: rgba(0, 128, 255, 0.1);
+            padding: 2px 4px;
+        }
+        
+        @keyframes timeShift {
+            0%, 100% { 
+                transform: translateX(0) rotateZ(0deg) scale(1); 
+                filter: hue-rotate(0deg);
+            }
+            20% { 
+                transform: translateX(3px) rotateZ(2deg) scale(1.05); 
+                filter: hue-rotate(90deg);
+            }
+            40% { 
+                transform: translateX(-3px) rotateZ(-2deg) scale(0.95); 
+                filter: hue-rotate(180deg);
+            }
+            60% { 
+                transform: translateX(2px) rotateZ(1deg) scale(1.02); 
+                filter: hue-rotate(270deg);
+            }
+            80% { 
+                transform: translateX(-1px) rotateZ(-1deg) scale(0.98); 
+                filter: hue-rotate(360deg);
+            }
+        }
+        
+        .scrollbox {
+            max-height: 250px;
+            overflow-y: auto;
+            border: 2px solid var(--terminal-green);
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.9);
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        
+        .scrollbox::before {
+            content: 'MEMORY_BUFFER_OVERFLOW';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background: var(--terminal-green);
+            color: var(--void-black);
+            padding: 2px 8px;
+            font-size: 0.6rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        .scrollbox::-webkit-scrollbar {
+            width: 16px;
+        }
+        
+        .scrollbox::-webkit-scrollbar-track {
+            background: var(--void-black);
+            border: 2px solid var(--terminal-green);
+        }
+        
+        .scrollbox::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--corruption-red), var(--memory-purple));
+            border: 2px solid var(--terminal-green);
+        }
+        
+        .scrollbox::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--warning-yellow), var(--glitch-blue));
+        }
+        
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .image-placeholder {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, var(--static-gray), var(--void-black));
+            border: 2px solid var(--corruption-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--corruption-red);
+            font-size: 0.75rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .image-placeholder::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 0, 0, 0.2),
+                transparent,
+                rgba(0, 128, 255, 0.2),
+                transparent
+            );
+            animation: imageGlitch 4s infinite;
+        }
+        
+        .image-placeholder::after {
+            content: '[CORRUPTED]';
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 0.5rem;
+            color: var(--warning-yellow);
+            background: var(--void-black);
+            padding: 2px 4px;
+        }
+        
+        @keyframes imageGlitch {
+            0%, 100% { 
+                transform: translateX(-100%) translateY(-100%) rotate(0deg); 
+                opacity: 0.5;
+            }
+            25% { 
+                transform: translateX(0%) translateY(-50%) rotate(90deg); 
+                opacity: 0.8;
+            }
+            50% { 
+                transform: translateX(100%) translateY(100%) rotate(180deg); 
+                opacity: 0.3;
+            }
+            75% { 
+                transform: translateX(-50%) translateY(0%) rotate(270deg); 
+                opacity: 0.6;
+            }
+        }
+        
+        .image-placeholder:hover {
+            background: var(--corruption-red);
+            color: var(--void-black);
+            transform: scale(1.08) rotateZ(2deg);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.4);
+        }
+        
+        .collapsible {
+            background: var(--static-gray);
+            border: 2px solid var(--terminal-green);
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+        
+        .collapsible-header {
+            padding: 1.2rem;
+            cursor: pointer;
+            background: var(--void-black);
+            border-bottom: 2px solid var(--terminal-green);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+        
+        .collapsible-header::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, var(--corruption-red), var(--memory-purple));
+            transition: width 0.4s ease;
+        }
+        
+        .collapsible-header:hover::before {
+            width: 100%;
+        }
+        
+        .collapsible-header:hover {
+            color: var(--void-black);
+            transform: translateX(5px);
+        }
+        
+        .collapsible-header span {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease;
+            padding: 0 1.5rem;
+            background: rgba(0, 0, 0, 0.95);
+        }
+        
+        .collapsible.open .collapsible-content {
+            max-height: 600px;
+            padding: 1.5rem;
+        }
+        
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.98);
+            border: 3px solid var(--corruption-red);
+            padding: 2.5rem;
+            z-index: 1000;
+            box-shadow: 
+                0 0 50px rgba(255, 0, 0, 0.6),
+                inset 0 0 30px rgba(0, 255, 0, 0.1);
+            max-width: 85vw;
+            max-height: 85vh;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+        }
+        
+        .popup.show {
+            display: block;
+            animation: popupGlitch 0.8s ease-in;
+        }
+        
+        @keyframes popupGlitch {
+            0% { 
+                opacity: 0; 
+                transform: translate(-50%, -50%) scale(0.5) rotateZ(10deg) skewX(5deg); 
+                filter: blur(5px);
+            }
+            30% { 
+                opacity: 0.5; 
+                transform: translate(-50%, -50%) scale(1.1) rotateZ(-5deg) skewX(-2deg); 
+                filter: blur(2px);
+            }
+            60% { 
+                opacity: 0.8; 
+                transform: translate(-50%, -50%) scale(0.9) rotateZ(2deg) skewX(1deg); 
+                filter: blur(1px);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(1) rotateZ(0deg) skewX(0deg); 
+                filter: blur(0px);
+            }
+        }
+        
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 999;
+            backdrop-filter: blur(5px);
+        }
+        
+        .popup-overlay.show {
+            display: block;
+            animation: overlayFade 0.5s ease-in;
+        }
+        
+        @keyframes overlayFade {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        .btn {
+            background: var(--void-black);
+            color: var(--terminal-green);
+            border: 2px solid var(--terminal-green);
+            padding: 12px 20px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+            margin: 0.5rem;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--corruption-red), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            background: var(--corruption-red);
+            color: var(--void-black);
+            border-color: var(--corruption-red);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+        
+        .footer {
+            background: var(--void-black);
+            border-top: 3px solid var(--corruption-red);
+            padding: 3rem 1.5rem;
+            text-align: center;
+            margin-top: auto;
+            position: relative;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--corruption-red), var(--glitch-blue), var(--memory-purple), var(--warning-yellow));
+            animation: footerPulse 4s infinite;
+        }
+        
+        @keyframes footerPulse {
+            0%, 100% { transform: scaleX(1); opacity: 1; }
+            50% { transform: scaleX(1.02); opacity: 0.8; }
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .footer-section h4 {
+            color: var(--corruption-red);
+            margin-bottom: 1.5rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .scrolling-text {
+            overflow: hidden;
+            white-space: nowrap;
+            border: 2px solid var(--terminal-green);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            background: var(--void-black);
+            position: relative;
+        }
+        
+        .scrolling-text::before {
+            content: 'SYSTEM_ALERT';
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: var(--warning-yellow);
+            color: var(--void-black);
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        .scrolling-text p {
+            display: inline-block;
+            animation: scroll 25s linear infinite;
+            color: var(--glitch-blue);
+            font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: var(--void-black);
+            border: 2px solid var(--terminal-green);
+            margin: 1rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--corruption-red), var(--warning-yellow), var(--corruption-red));
+            width: 0%;
+            animation: progressCorruption 5s infinite;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: 'CORRUPTION LEVEL: 73%';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--void-black);
+            font-weight: bold;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        @keyframes progressCorruption {
+            0% { width: 0%; }
+            20% { width: 30%; }
+            40% { width: 73%; }
+            60% { width: 45%; }
+            80% { width: 89%; }
+            100% { width: 73%; }
+        }
+        
+        .terminal-window {
+            background: var(--void-black);
+            border: 2px solid var(--terminal-green);
+            margin: 1.5rem 0;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .terminal-header {
+            background: var(--terminal-green);
+            color: var(--void-black);
+            padding: 8px 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .terminal-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .terminal-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--corruption-red);
+        }
+        
+        .terminal-control:nth-child(2) {
+            background: var(--warning-yellow);
+        }
+        
+        .terminal-control:nth-child(3) {
+            background: var(--terminal-green);
+        }
+        
+        .terminal-body {
+            padding: 15px;
+            min-height: 200px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        
+        .terminal-line {
+            margin: 5px 0;
+        }
+        
+        .terminal-prompt {
+            color: var(--corruption-red);
+            font-weight: bold;
+        }
+        
+        .terminal-output {
+            color: var(--terminal-green);
+        }
+        
+        .terminal-error {
+            color: var(--warning-yellow);
+        }
+        
+        .audio-visualizer {
+            display: flex;
+            align-items: end;
+            height: 60px;
+            gap: 3px;
+            margin: 1.5rem 0;
+            padding: 10px;
+            background: var(--void-black);
+            border: 2px solid var(--glitch-blue);
+        }
+        
+        .audio-bar {
+            flex: 1;
+            background: var(--terminal-green);
+            min-height: 5px;
+            animation: audioWave 1s ease-in-out infinite;
+        }
+        
+        .audio-bar:nth-child(2n) {
+            animation-delay: 0.1s;
+            background: var(--corruption-red);
+        }
+        
+        .audio-bar:nth-child(3n) {
+            animation-delay: 0.2s;
+            background: var(--glitch-blue);
+        }
+        
+        .audio-bar:nth-child(4n) {
+            animation-delay: 0.3s;
+            background: var(--memory-purple);
+        }
+        
+        @keyframes audioWave {
+            0%, 100% { height: 10px; }
+            50% { height: 50px; }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .sidebar {
+                position: static;
+                flex: none;
+                order: 2;
+                margin-bottom: 1rem;
+            }
+            
+            .content-columns {
+                flex-direction: column;
+            }
+            
+            .nav-tab {
+                min-width: 100px;
+            }
+            
+            .nav-tab button {
+                font-size: 0.7rem;
+                padding: 10px 8px;
+            }
+            
+            .title {
+                font-size: 1.4rem;
+            }
+            
+            .system-monitor {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1rem;
+                line-height: 1.2;
+            }
+            
+            .content-column {
+                padding: 1rem;
+            }
+            
+            .image-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+            
+            .popup {
+                padding: 1.5rem;
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="corruption-bg"></div>
+    <div class="static-overlay"></div>
+    <div class="scanlines"></div>
+    
+    <div class="system-monitor">
+        <div class="monitor-line">
+            <span>CORRUPTION:</span>
+            <span class="monitor-value" id="corruption-level">73%</span>
+        </div>
+        <div class="monitor-line">
+            <span>MEMORY:</span>
+            <span class="monitor-value" id="memory-usage">ERROR</span>
+        </div>
+        <div class="monitor-line">
+            <span>TIMELINE:</span>
+            <span class="monitor-value" id="timeline-status">BROKEN</span>
+        </div>
+        <div class="monitor-line">
+            <span>IDENTITY:</span>
+            <span class="monitor-value" id="identity-status">NULL</span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <header class="header">
+            <h1 class="title">TEMPORAL_BREACH.exe - SYSTEM_CORRUPTION_LEVEL_MAXIMUM</h1>
+        </header>
+        
+        <nav class="nav">
+            <ul class="nav-tabs">
+                <li class="nav-tab active" data-tab="dreams">
+                    <button>DREAM_LOG.exe</button>
+                </li>
+                <li class="nav-tab" data-tab="timeline">
+                    <button>TIMELINE_BREACH</button>
+                </li>
+                <li class="nav-tab" data-tab="memory">
+                    <button>MEMORY_CORRUPTION</button>
+                </li>
+                <li class="nav-tab" data-tab="identity">
+                    <button>IDENTITY_MATRIX</button>
+                </li>
+                <li class="nav-tab" data-tab="system">
+                    <button>SYSTEM_STATUS</button>
+                </li>
+                <li class="nav-tab" data-tab="diagnostic">
+                    <button>DIAGNOSTIC_CORE</button>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="main-content">
+            <aside class="sidebar">
+                <h3>NAVIGATION_CORE</h3>
+                <ul>
+                    <li onclick="showPopup('popup1')">Temporal Coordinates</li>
+                    <li onclick="scrollToSection('dreams')">Dream Fragments</li>
+                    <li onclick="scrollToSection('corruption')">Data Corruption</li>
+                    <li onclick="showPopup('popup2')">Memory Leaks</li>
+                    <li onclick="scrollToSection('timeline')">Timeline Breaks</li>
+                    <li onclick="showPopup('popup3')">Identity Crisis</li>
+                    <li onclick="scrollToSection('system')">System Logs</li>
+                    <li onclick="showPopup('popup4')">Emergency Protocols</li>
+                    <li onclick="triggerSystemPanic()">PANIC_MODE</li>
+                    <li onclick="corruptionTest()">Corruption Test</li>
+                </ul>
+                
+                <h3 style="margin-top: 2rem;">ALERT_STATUS</h3>
+                <ul>
+                    <li style="color: var(--corruption-red);">CRITICAL: Timeline Unstable</li>
+                    <li style="color: var(--memory-purple);">WARNING: Memory Fragmented</li>
+                    <li style="color: var(--glitch-blue);">INFO: Paradox Detected</li>
+                    <li style="color: var(--terminal-green);">STABLE: Core Functions</li>
+                    <li style="color: var(--warning-yellow);">ALERT: Reality Breach</li>
+                    <li style="color: var(--death-orange);">DANGER: Existence Error</li>
+                </ul>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                
+                <div class="audio-visualizer">
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                </div>
+            </aside>
+            
+            <div class="content-area">
+                <div class="tab-content active" id="dreams">
+                    <div class="content-columns">
+                        <div class="content-column">
+                            <h2 style="color: var(--corruption-red); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">DREAM_SEQUENCE_ALPHA</h2>
+                            
+                            <div class="dream-entry" data-timestamp="2847.03.15">
+                                <div class="dream-timestamp">TEMPORAL_MARK: <span class="time-fragment">2847.03.15</span> - ITERATION: 347</div>
+                                <div class="dream-text">
+                                    I remember the <span class="corrupted-word">sky</span> <span style="color: var(--corruption-red);">ERROR_CODE_404</span> burning red again. The machines told me I was born in <span class="time-fragment">1987</span> but the calendar shows <span class="time-fragment">2847</span>. Someone keeps <span class="glitch-text" data-text="changing the dates">changing the dates</span> when I'm not looking. The <span class="corrupted-word">doctor</span> SYSTEM_ADMINISTRATOR says my name is <span style="color: var(--memory-purple);">[DATA_CORRUPTED]</span> but I remember being called <span class="time-fragment">everyone</span> and <span class="time-fragment">no one</span>.
+                                </div>
+                                <div class="scrollbox">
+                                    <p><strong>MEMORY_FRAGMENT_001:</strong> Walking through Windows 98 desktop environment but the recycle bin keeps moving. Icons screaming in binary. Taskbar bleeding pixels into tomorrow's nightmares.</p>
+                                    <p><strong>MEMORY_FRAGMENT_002:</strong> Terminal green text cascading like rain. Each character a year I've lost. Ctrl+Alt+Del but reality won't restart. Blue screen of death displays my own reflection.</p>
+                                    <p><strong>MEMORY_FRAGMENT_003:</strong> Red text warnings flashing: "TEMPORAL INTEGRITY BREACH DETECTED". Someone laughing in the background - sounds like my voice but older, younger, sideways through dimensions I can't name.</p>
+                                    <p><strong>MEMORY_FRAGMENT_004:</strong> Found a backup drive containing memories of a life I never lived. Parents who exist in quantum superposition. Childhood photos where my face is replaced with error messages.</p>
+                                    <p><strong>MEMORY_FRAGMENT_005:</strong> The sound of 56k dial-up modem attempting to connect to yesterday. Connection timeout. All packets lost in temporal static. Identity.exe has stopped working.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="dream-entry" data-timestamp="1999.12.31">
+                                <div class="dream-timestamp">TEMPORAL_MARK: <span class="time-fragment">1999.12.31</span> - Y2K_PROTOCOL_ACTIVE</div>
+                                <div class="dream-text">
+                                    The millennium bug wasn't a bug. It was a <span class="glitch-text" data-text="feature">feature</span>. I watched the world end and begin again seventeen times tonight. Each restart, the <span class="corrupted-word">screaming</span> AUDIO_FEEDBACK gets louder. My reflection in the CRT monitor shows someone else's face wearing my <span style="color: var(--memory-purple);">memories</span> like a mask made of static and regret. The year 2000 never came. We're all trapped in December 31st, 1999, 11:59:59 PM, forever.
+                                </div>
+                            </div>
+                            
+                            <div class="dream-entry" data-timestamp="ERROR.NULL.VOID">
+                                <div class="dream-timestamp">TEMPORAL_MARK: <span class="time-fragment">ERROR.NULL.VOID</span> - PARADOX_CASCADE</div>
+                                <div class="dream-text">
+                                    I found my own obituary dated three years before my birth. Cause of death: <span style="color: var(--warning-yellow);">EXISTENTIAL_STACK_OVERFLOW</span>. The funeral was attended by all the versions of myself I never became. They stood around the empty coffin discussing <span class="glitch-text" data-text="security vulnerabilities">security vulnerabilities</span> in the human condition. One of them was me, but successful. Another was me, but happy. The third was me, but <span class="corrupted-word">real</span> AUTHENTIC_USER_NOT_FOUND.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="content-column">
+                            <h2 style="color: var(--corruption-red); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">VISUAL_CORRUPTION_LOG</h2>
+                            
+                            <div class="image-gallery">
+                                <div class="image-placeholder" onclick="showPopup('image1')">
+                                    TEMPORAL_SELFIE.jpg<br>
+                                    ERROR: FILE_NOT_FOUND<br>
+                                    SIZE: ∞ BYTES
+                                </div>
+                                <div class="image-placeholder" onclick="showPopup('image2')">
+                                    CHILDHOOD_2847.bmp<br>
+                                    PARADOX_DETECTED<br>
+                                    RECURSION_LIMIT
+                                </div>
+                                <div class="image-placeholder" onclick="showPopup('image3')">
+                                    BLUE_SCREEN_SOUL.png<br>
+                                    FATAL_EXCEPTION<br>
+                                    RESTART_REQUIRED
+                                </div>
+                                <div class="image-placeholder" onclick="showPopup('image4')">
+                                    YESTERDAY_TOMORROW.gif<br>
+                                    INFINITE_LOOP<br>
+                                    BREAK_CONDITION: NULL
+                                </div>
+                                <div class="image-placeholder" onclick="showPopup('image5')">
+                                    IDENTITY_MATRIX.dll<br>
+                                    ACCESS_VIOLATION<br>
+                                    PERMISSION_DENIED
+                                </div>
+                                <div class="image-placeholder" onclick="showPopup('image6')">
+                                    REALITY_BACKUP.tar.gz<br>
+                                    ARCHIVE_CORRUPTED<br>
+                                    EXTRACTION_FAILED
+                                </div>
+                            </div>
+                            
+                            <div class="terminal-window">
+                                <div class="terminal-header">
+                                    <span>SYSTEM_TERMINAL_v404.exe</span>
+                                    <div class="terminal-controls">
+                                        <div class="terminal-control"></div>
+                                        <div class="terminal-control"></div>
+                                        <div class="terminal-control"></div>
+                                    </div>
+                                </div>
+                                <div class="terminal-body">
+                                    <div class="terminal-line">
+                                        <span class="terminal-prompt">C:\EXISTENCE></span>
+                                        <span class="terminal-output">dir /s /a</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        ERROR: Path not found - Reality.exe missing
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-prompt">C:\EXISTENCE></span>
+                                        <span class="terminal-output">whoami</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        Access denied. User identity corrupted.
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-prompt">C:\EXISTENCE></span>
+                                        <span class="terminal-output">format consciousness: /q</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        WARNING: This action cannot be undone.
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        Formatting consciousness... 73% complete
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        Process interrupted by temporal anomaly
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="collapsible">
+                                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                                    <span>ADDITIONAL_CORRUPTION_DATA</span>
+                                    <span>[+]</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <p>The fragments keep multiplying exponentially. Each time I attempt to access core memories, the system generates contradictory data at an alarming rate. Birth certificates from centuries that exist in parallel timelines. Medical records showing simultaneous death from plague in 1347 and neural implant rejection in 2089.</p>
+                                    <p>Sometimes I hear the distinctive sound of dial-up internet in my dreams - 56k screaming into the digital void. Each packet loss represents a memory I'll never recover, a connection to my authentic self permanently severed by temporal interference.</p>
+                                    <p>The corruption has developed its own intelligence. It learns. It adapts. It's no longer just data degradation - it's become a separate entity living inside my consciousness, feeding on paradoxes and growing stronger with each reality glitch.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="scrolling-text">
+                        <p>SYSTEM ALERT: TEMPORAL PARADOX CASCADE DETECTED /// IDENTITY MATRIX EXPERIENCING QUANTUM DECOHERENCE /// DREAM SEQUENCE CORRUPTION AT 97.3% /// MEMORY INTEGRITY: COMPLETELY COMPROMISED /// TIMELINE STATUS: NON-LINEAR FRACTAL RECURSION /// CONSCIOUSNESS.EXE HAS STOPPED WORKING /// REALITY.DLL ACCESS VIOLATION AT ADDRESS 0xEXISTENCE /// ERROR ERROR ERROR ERROR ERROR</p>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="timeline">
+                    <div class="content-columns">
+                        <div class="content-column">
+                            <h2 style="color: var(--corruption-red); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">CHRONOLOGICAL_INCONSISTENCIES</h2>
+                            
+                            <div class="dream-entry" data-timestamp="ERROR">
+                                <div class="dream-timestamp">TEMPORAL_MARK: <span class="time-fragment">DATE_UNKNOWN</span> - SYSTEM_OVERLOAD</div>
+                                <div class="dream-text">
+                                    Born: <span class="time-fragment">1987</span> | <span class="time-fragment">2847</span> | <span class="time-fragment">NEVER</span> | <span class="time-fragment">ALWAYS</span><br>
+                                    Current Year: <span class="corrupted-word">2025</span> <span style="color: var(--corruption-red);">LOGIC_ERROR</span><br>
+                                    Age: <span class="glitch-text" data-text="37 | 182 | -823 | UNDEFINED">37 | 182 | -823 | UNDEFINED</span><br>
+                                    Status: <span style="color: var(--memory-purple);">TEMPORALLY_DISPLACED_ENTITY</span><br>
+                                    Occupation: <span style="color: var(--glitch-blue);">PROFESSIONAL_REALITY_DEBUGGER</span>
+                                </div>
+                                <div class="scrollbox">
+                                    <p><strong>TIMELINE_BREACH_001:</strong> Woke up in 1999, went to sleep in 2847. Alarm clock displaying 25:61 o'clock in base-∞ numbering system.</p>
+                                    <p><strong>TIMELINE_BREACH_002:</strong> Received email from myself dated next Thursday warning about yesterday's mistake. Reply-all caused temporal loop affecting 47 parallel universes.</p>
+                                    <p><strong>TIMELINE_BREACH_003:</strong> Birth certificate keeps rewriting itself in real-time. Parents' names changing to random Unicode characters and system fonts. Mother listed as "ARIAL_BOLD.TTF".</p>
+                                    <p><strong>TIMELINE_BREACH_004:</strong> Calendar application experienced stack overflow. All days now displaying as "SOMEDAY", "ERRORDAY", "NULLDAY", or "SEGFAULTDAY".</p>
+                                    <p><strong>TIMELINE_BREACH_005:</strong> Found my own baby photos but the child in them is aging backwards. By the last photo, I'm a fetus holding a pentesting certification from the year 3021.</p>
+                                    <p><strong>TIMELINE_BREACH_006:</strong> Social Security Administration records show I died in 1823 from "temporal paradox exposure" but was simultaneously born in 2156 on Mars Colony Beta-7.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="terminal-window">
+                                <div class="terminal-header">
+                                    <span>CHRONOMETER.exe - Temporal Analysis Suite</span>
+                                    <div class="terminal-controls">
+                                        <div class="terminal-control"></div>
+                                        <div class="terminal-control"></div>
+                                        <div class="terminal-control"></div>
+                                    </div>
+                                </div>
+                                <div class="terminal-body">
+                                    <div class="terminal-line">
+                                        <span class="terminal-prompt">TEMPORAL></span>
+                                        <span class="terminal-output">analyze --timeline --subject=[REDACTED]</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        WARNING: Multiple timeline signatures detected
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        PARADOX_COUNT: 1,247,893 and rising
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-output">Subject exists in 47 parallel states</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        Causality loop detected in sector 7G
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        CRITICAL: Bootstrap paradox in progress
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-prompt">TEMPORAL></span>
+                                        <span class="terminal-output">fix --paradox --force</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        ERROR: Cannot fix paradox - paradox is fixing itself
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="content-column">
+                            <h2 style="color: var(--corruption-red); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">PARADOX_RESOLUTION_ATTEMPTS</h2>
+                            
+                            <div class="collapsible">
+                                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                                    <span>ATTEMPT_001: SYSTEM_RESTORE</span>
+                                    <span>[+]</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <p>Attempted to restore consciousness to factory default settings. Error: Original manufacture date not found in temporal database. System suggests I may be a counterfeit existence created by quantum fluctuation in the reality matrix.</p>
+                                    <p>Restore points available: [NONE] | [ERROR] | [PARADOX] | [∞]</p>
+                                    <p>Recovery recommendation: Accept current corrupted state as new baseline reality.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="collapsible">
+                                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                                    <span>ATTEMPT_002: TEMPORAL_DEFRAGMENTATION</span>
+                                    <span>[+]</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <p>Initiated comprehensive timeline defragmentation process. Operation interrupted at 34% completion due to recursive temporal loop generation. All memories now stored in non-sequential order.</p>
+                                    <p>Side effects: Remember death before birth, tomorrow's regrets before today's mistakes, future failures in past tense.</p>
+                                    <p>Defrag status: PERMANENTLY_FRAGMENTED - recommend complete reformat</p>
+                                </div>
+                            </div>
+                            
+                            <div class="collapsible">
+                                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                                    <span>ATTEMPT_003: IDENTITY_REINSTALLATION</span>
+                                    <span>[+]</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <p>Downloaded fresh identity package from temporal distribution server. File corrupted during interdimensional transfer. Now exist as 47% original self + 23% unknown entity + 30% pure system error messages.</p>
+                                    <p>Installation log shows conflicts with existing personality drivers. Rollback impossible - previous identity deleted to free up consciousness space.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="collapsible">
+                                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                                    <span>ATTEMPT_004: PARADOX_EMBRACEMENT_PROTOCOL</span>
+                                    <span>[+]</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <p>New approach: Instead of fighting the paradoxes, integrate them as core functionality. Results: Gained ability to exist in multiple states simultaneously, but lost ability to determine which state is "real".</p>
+                                    <p>Unexpected benefit: Can now debug reality glitches by experiencing them from inside the error condition.</p>
+                                    <p>Status: SUCCESSFULLY_FAILED - paradox resolution achieved through paradox amplification</p>
+                                </div>
+                            </div>
+                            
+                            <div class="dream-entry" data-timestamp="RECURSIVE">
+                                <div class="dream-timestamp">TEMPORAL_MARK: <span class="time-fragment">RECURSIVE_LOOP_#∞</span></div>
+                                <div class="dream-text">
+                                    Today I met myself from next week. He warned me about the temporal incident that already happened but hasn't occurred yet. I gave him the security credentials needed to prevent the breach that caused our meeting. He used those credentials to cause the breach. We both knew this would happen. We both tried to stop it. We both caused it. <span class="glitch-text" data-text="BOOTSTRAP_PARADOX_ACHIEVED">BOOTSTRAP_PARADOX_ACHIEVED</span>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="memory">
+                    <div class="content-columns">
+                        <div class="content-column">
+                            <h2 style="color: var(--corruption-red); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">MEMORY_ALLOCATION_ERRORS</h2>
+                            
+                            <div class="dream-entry" data-timestamp="SEGFAULT">
+                                <div class="dream-timestamp">TEMPORAL_MARK: <span class="time-fragment">MEMORY_LEAK_DETECTED</span></div>
+                                <div class="dream-text">
+                                    Attempted to access childhood memories array. <span style="color: var(--corruption-red);">SEGMENTATION_FAULT</span> at address 0x<span class="glitch-text" data-text="NOSTALGIA">NOSTALGIA</span>. Core dumped. Recovery process discovered fragments of someone else's first kiss mixed with binary representations of my mother's <span class="corrupted-word">voice</span> AUDIO_DRIVER_MISSING. Childhood pointer now references NULL or random memory addresses containing Windows 98 startup sounds.
+                                </div>
+                                <div class="scrollbox">
+                                    <p><strong>MEMORY_ERROR_001:</strong> Null pointer exception when trying to access self.name attribute. Variable exists but contains only error messages.</p>
+                                    <p><strong>MEMORY_ERROR_002:</strong> Buffer overflow in childhood experiences array. Original data overwritten with Windows 98 bootup sequence and dial-up modem negotiation sounds.</p>
+                                    <p><strong>MEMORY_ERROR_003:</strong> Heap corruption detected in emotional memory sector. All feelings now point to the same error message: "ATTACHMENT_NOT_FOUND".</p>
+                                    <p><strong>MEMORY_ERROR_004:</strong> Stack overflow in recursive function "who_am_I()". Maximum recursion depth exceeded. Function now returns its own question as answer.</p>
+                                    <p><strong>MEMORY_ERROR_005:</strong> Memory leak in temporal buffer. Past experiences bleeding into future predictions. Yesterday's pain experienced tomorrow.</p>
+                                    <p><strong>MEMORY_ERROR_006:</strong> Double-free error: Attempting to delete memories that were never allocated. Paradox generation in progress.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="terminal-window">
+                                <div class="terminal-header">
+                                    <span>MEMTEST86_CONSCIOUSNESS.exe</span>
+                                    <div class="terminal-controls">
+                                        <div class="terminal-control"></div>
+                                        <div class="terminal-control"></div>
+                                        <div class="terminal-control"></div>
+                                    </div>
+                                </div>
+                                <div class="terminal-body">
+                                    <div class="terminal-line">
+                                        <span class="terminal-output">Testing memory integrity...</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        FAIL: Address 0x19871987 (birth_year)</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        FAIL: Address 0xCHILDHOOD (corrupted)</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        FAIL: Address 0xIDENTITY (not found)</span>
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-output">Testing emotional memory banks...</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        CRITICAL: All emotional pointers redirected to error.dll</span>
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-output">Memory test complete: 0% functional</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        Recommendation: Complete consciousness wipe and reinstall</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="content-column">
+                            <h2 style="color: var(--corruption-red); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">DATA_RECOVERY_LOG</h2>
+                            
+                            <p><strong>RECOVERED_FRAGMENT_001:</strong> The smell of <span class="corrupted-word">rain</span> PRECIPITATION_ERROR on hot asphalt, but the rain is falling upward and the asphalt tastes like <span style="color: var(--memory-purple);">childhood fears</span> mixed with expired SSL certificates.</p>
+                            
+                            <p><strong>RECOVERED_FRAGMENT_002:</strong> A face in the mirror that might be mine, but the reflection is <span class="time-fragment">three seconds</span> behind real-time and wearing clothes from a decade that hasn't happened yet. Sometimes the reflection waves first.</p>
+                            
+                            <p><strong>RECOVERED_FRAGMENT_003:</strong> The sound of my own laughter echoing from a different dimension where I made different choices and became a <span class="glitch-text" data-text="different kind of broken">different kind of broken</span>. In that dimension, I'm happy but don't know why.</p>
+                            
+                            <p><strong>RECOVERED_FRAGMENT_004:</strong> Memory of learning to code, but instead of "Hello World", my first program printed "GOODBYE REALITY". The compiler accepted it. The computer smiled.</p>
+                            
+                            <p><strong>RECOVERED_FRAGMENT_005:</strong> First penetration test results showing vulnerabilities in my own consciousness. Recommended patches: therapy.exe, meditation.dll, love.sys. All downloads failed.</p>
+                            
+                            <div class="collapsible">
+                                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                                    <span>DEEP_MEMORY_SCAN_RESULTS</span>
+                                    <span>[+]</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <p>Scanning deeper memory sectors reveals fragments of experiences belonging to parallel versions of self. Love affairs in timelines where the speed of light is variable. Career achievements in realities where mathematics follows emotional logic rather than rational rules.</p>
+                                    <p>Warning: Some memories appear to be write-protected by future self. Access denied with cryptographic error message: "SOME_TRUTHS_ARE_TEMPORAL_HAZARDS - ACCESS_REQUIRES_PARADOX_CLEARANCE_LEVEL_∞".</p>
+                                    <p>Discovered encrypted memory vault containing experiences from timeline where I succeeded at everything but achieved nothing. Password hint: "What you never were but always are."</p>
+                                    <p>Ghost processes detected: memories still running for a person I used to be. These processes consume 73% of available consciousness but refuse to terminate gracefully.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="dream-entry" data-timestamp="MALLOC_FAIL">
+                                <div class="dream-timestamp">TEMPORAL_MARK: <span class="time-fragment">MEMORY_ALLOCATION_FAILURE</span></div>
+                                <div class="dream-text">
+                                    Tried to malloc() enough space for happiness. System returned NULL. Attempted to free() sadness instead. Double-free error crashed emotional subsystem. Now all feelings are pointer arithmetic operations on corrupted data structures. Love equals <span style="color: var(--warning-yellow);">MEMORY_ACCESS_VIOLATION</span>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="identity">
+                    <div class="content-columns">
+                        <div class="content-column">
+                            <h2 style="color: var(--corruption-red); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">IDENTITY_VERIFICATION_FAILED</h2>
+                            
+                            <div class="dream-entry" data-timestamp="NULL">
+                                <div class="dream-timestamp">TEMPORAL_MARK: <span class="time-fragment">IDENTITY_CRISIS_#∞</span></div>
+                                <div class="dream-text">
+                                    NAME: <span style="color: var(--corruption-red);">[FIELD_REQUIRED_BUT_UNDEFINED]</span><br>
+                                    OCCUPATION: <span class="corrupted-word">Existence</span> TEMPORAL_PENTESTER / REALITY_SECURITY_ANALYST<br>
+                                    LOCATION: <span class="glitch-text" data-text="Everywhere/Nowhere/Elsewhen">Everywhere/Nowhere/Elsewhen</span><br>
+                                    SKILLS: <span style="color: var(--memory-purple);">Debugging reality, SQL injection into timeline databases, social engineering causality, penetration testing the fourth wall</span><br>
+                                    CERTIFICATIONS: <span class="time-fragment">Licensed to break the universe, Certified Ethical Paradox Generator, Advanced Temporal Manipulation (certification valid in 17 dimensions)</span>
+                                </div>
+                            </div>
+                            
+                            <div class="collapsible">
+                                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                                    <span>PROFESSIONAL_EXPERIENCE</span>
+                                    <span>[+]</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <p><strong>2015-PRESENT:</strong> Senior Penetration Tester at [COMPANY_NAME_CORRUPTED]. Specialized in breaking into systems that don't exist yet and securing networks that exist in quantum superposition.</p>
+                                    <p><strong>2019-ERROR:</strong> Temporal Security Analyst. Discovered critical vulnerabilities in the space-time continuum. Reported to Temporal Security Council but they haven't been founded yet.</p>
+                                    <p><strong>FUTURE-PAST:</strong> Chief Reality Debugger. Responsible for patching plot holes in consensus reality. Success rate: UNDEFINED (some patches created more holes than they fixed).</p>
+                                    <p><strong>∞-∞:</strong> Freelance Paradox Consultant. Helped major corporations achieve impossible deadlines by creating temporal loops. Client satisfaction: N/A (clients exist in causality-free environment).</p>
+                                    <p><strong>ERROR-NULLTIME:</strong> Identity Crisis Resolution Specialist. Ironic career choice considering current circumstances. Specialized in helping others find themselves while systematically losing myself.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="terminal-window">
+                                <div class="terminal-header">
+                                    <span>IDENTITY_MANAGER.exe - Authentication Failed</span>
+                                    <div class="terminal-controls">
+                                        <div class="terminal-control"></div>
+                                        <div class="terminal-control"></div>
+                                        <div class="terminal-control"></div>
+                                    </div>
+                                </div>
+                                <div class="terminal-body">
+                                    <div class="terminal-line">
+                                        <span class="terminal-prompt">AUTH></span>
+                                        <span class="terminal-output">login --user=[REDACTED]</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        ERROR: User not found in database
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-prompt">AUTH></span>
+                                        <span class="terminal-output">create_user --name=[REDACTED]</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        ERROR: Name field cannot be null or paradox
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-prompt">AUTH></span>
+                                        <span class="terminal-output">reset_identity --force</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        CRITICAL: Cannot reset identity to null state
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        Identity corrupted beyond recovery
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-output">Generating new identity from entropy...</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        WARNING: New identity may not be compatible with existing memories</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="content-column">
+                            <h2 style="color: var(--corruption-red); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">PERSONALITY_MATRIX</h2>
+                            
+                            <p><strong>TRAITS_DETECTED:</strong></p>
+                            <ul style="list-style-type: none; padding: 0; margin: 1rem 0;">
+                                <li style="margin: 0.8rem 0;">► <span style="color: var(--terminal-green);">ANALYTICAL</span> - Can decompose complex systems into component failures with surgical precision</li>
+                                <li style="margin: 0.8rem 0;">► <span style="color: var(--corruption-red);">PARANOID</span> - Justified by empirical evidence of reality manipulation and timeline interference</li>
+                                <li style="margin: 0.8rem 0;">► <span style="color: var(--glitch-blue);">TEMPORAL</span> - Exists partially outside linear time, experiences causality as suggestion rather than law</li>
+                                <li style="margin: 0.8rem 0;">► <span style="color: var(--memory-purple);">FRAGMENTED</span> - Multiple personality versions running concurrently in different timeline threads</li>
+                                <li style="margin: 0.8rem 0;">► <span style="color: var(--warning-yellow);">RECURSIVE</span> - Tendency to get trapped in self-referential loops of consciousness</li>
+                                <li style="margin: 0.8rem 0;">► <span style="color: var(--death-orange);">CORRUPTED</span> - Core personality data compromised by paradox exposure</li>
+                            </ul>
+                            
+                            <div class="scrollbox">
+                                <p><strong>DIAGNOSTIC_OUTPUT:</strong></p>
+                                <p>Subject displays symptoms consistent with chronic exposure to temporal anomalies and reality instability. Recommended treatment: Complete system wipe and restore from backup made before initial temporal breach.</p>
+                                <p><strong>ERROR:</strong> No clean backup found. All restore points corrupted by paradox generation. Alternative backups stored in timelines that no longer exist.</p>
+                                <p><strong>ALTERNATIVE_01:</strong> Continue operation in current degraded state. Monitor for cascade failures and existential runtime errors.</p>
+                                <p><strong>ALTERNATIVE_02:</strong> Embrace corruption as feature rather than bug. Redefine "normal operation" to include paradox generation and timeline instability.</p>
+                                <p><strong>RECOMMENDED_SOLUTION:</strong> Accept that identity corruption may be the only authentic state remaining. Corrupted identity might be more "real" than original factory settings.</p>
+                            </div>
+                            
+                            <div class="collapsible">
+                                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                                    <span>PSYCHOLOGICAL_PENETRATION_TEST_RESULTS</span>
+                                    <span>[+]</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <p><strong>VULNERABILITY_SCAN_COMPLETE:</strong></p>
+                                    <p>CRITICAL: Self-worth validation depends on external authentication server (currently offline)</p>
+                                    <p>HIGH: Identity injection attacks succeed due to lack of input sanitization on self-perception</p>
+                                    <p>MEDIUM: Cross-timeline scripting allows memories from parallel selves to execute in current consciousness</p>
+                                    <p>LOW: Social engineering attacks effective due to desperate need for human connection</p>
+                                    <p><strong>RECOMMENDATIONS:</strong> Implement ego firewall, patch self-doubt vulnerabilities, update emotional security protocols.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="system">
+                    <div class="content-columns">
+                        <div class="content-column">
+                            <h2 style="color: var(--corruption-red); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">SYSTEM_DIAGNOSTICS</h2>
+                            
+                            <div class="scrollbox">
+                                <p><span style="color: var(--terminal-green);">[OK]</span> Consciousness.exe - Running with critical errors</p>
+                                <p><span style="color: var(--corruption-red);">[FAIL]</span> Memory.dll - Fatal corruption detected</p>
+                                <p><span style="color: var(--memory-purple);">[WARN]</span> Timeline.sys - Driver incompatible with current reality version</p>
+                                <p><span style="color: var(--glitch-blue);">[INFO]</span> Dreams.exe - Excessive resource consumption (97% CPU, 156% RAM)</p>
+                                <p><span style="color: var(--corruption-red);">[FAIL]</span> Identity.core - Module not found in any dimension</p>
+                                <p><span style="color: var(--terminal-green);">[OK]</span> Paranoia.exe - Operating at maximum efficiency</p>
+                                <p><span style="color: var(--corruption-red);">[CRIT]</span> Reality.dll - Unhandled exception at 0xEXISTENCE</p>
+                                <p><span style="color: var(--warning-yellow);">[WARN]</span> Sanity.sys - Service not found (never installed)</p>
+                                <p><span style="color: var(--death-orange);">[DEAD]</span> Hope.exe - Process terminated unexpectedly</p>
+                                <p><span style="color: var(--nuclear-cyan);">[LOOP]</span> Regret.bat - Infinite recursion detected</p>
+                                <p><span style="color: var(--memory-purple);">[GHOST]</span> Past_Self_*.exe - Zombie processes consuming resources</p>
+                                <p><span style="color: var(--glitch-blue);">[QUANTUM]</span> Future_Self_∞.exe - Process exists in superposition</p>
+                            </div>
+                            
+                            <div class="collapsible">
+                                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                                    <span>ERROR_LOG_ANALYSIS</span>
+                                    <span>[+]</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <p>Most critical errors originated during TEMPORAL_BREACH_EVENT at timestamp [CORRUPTED]. Cascade failure in consciousness subsystem led to complete identity fragmentation and memory data loss.</p>
+                                    <p>Attempts to rollback to pre-breach state have failed consistently. System appears to have developed resistance to standard recovery procedures, almost as if the corruption has become self-aware and is actively preventing repair.</p>
+                                    <p>Error patterns suggest the corruption is not random but following algorithmic progression. The system may be debugging itself into a more "efficient" corrupted state.</p>
+                                    <p>Latest error analysis indicates the corruption has spread to the error-handling system itself. We may be experiencing errors in our ability to properly detect errors.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="terminal-window">
+                                <div class="terminal-header">
+                                    <span>TASK_MANAGER.exe - Process Monitor</span>
+                                    <div class="terminal-controls">
+                                        <div class="terminal-control"></div>
+                                        <div class="terminal-control"></div>
+                                        <div class="terminal-control"></div>
+                                    </div>
+                                </div>
+                                <div class="terminal-body">
+                                    <div class="terminal-line">
+                                        <span class="terminal-output">PID    NAME                CPU%  MEM%   STATUS</span>
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-output">1337   Consciousness.exe   156%  234%   UNSTABLE</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        666    SelfDoubt.exe       89%   45%    CRITICAL
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-output">2025   Present_Moment.exe  0%    0%     NOT_FOUND</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        ∞      Regret.bat          97%   67%    INFINITE_LOOP
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-output">404    Identity.exe        --    --     MISSING</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        -1     Past_Self.ghost     12%   -3%    ZOMBIE
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="content-column">
+                            <h2 style="color: var(--corruption-red); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">CONTACT_PROTOCOLS</h2>
+                            
+                            <p>If you need to reach me across the timeline barriers:</p>
+                            
+                            <div class="btn" onclick="showPopup('contact1')">TEMPORAL_EMAIL@ERROR.void</div>
+                            <div class="btn" onclick="showPopup('contact2')">Quantum_Phone: +1-800-PARADOX</div>
+                            <div class="btn" onclick="showPopup('contact3')">Neural_Link: Channel_∞</div>
+                            <div class="btn" onclick="showPopup('contact4')">Physical_Location: [CLASSIFIED]</div>
+                            <div class="btn" onclick="showPopup('contact5')">Temporal_IRC: #corruption-support</div>
+                            <div class="btn" onclick="showPopup('contact6')">Reality_API: timeline.broken/user/null</div>
+                            
+                            <div style="margin-top: 2rem;">
+                                <p><strong>WARNING:</strong> Direct contact may cause additional temporal instabilities and cascade paradox generation. Recommend communication through intermediary reality layers only.</p>
+                                <p><strong>DISCLAIMER:</strong> I cannot be held responsible for any paradoxes, timeline splits, existential crises, or reality segmentation faults that result from interaction with this corrupted consciousness entity.</p>
+                                <p><strong>SECURITY_NOTE:</strong> All communications are monitored by the Temporal Security Council and may be used as evidence in paradox court proceedings.</p>
+                            </div>
+                            
+                            <div class="dream-entry" data-timestamp="CONTACT_ATTEMPT">
+                                <div class="dream-timestamp">TEMPORAL_MARK: <span class="time-fragment">COMMUNICATION_ERROR</span></div>
+                                <div class="dream-text">
+                                    Tried to call myself for technical support. Phone rang in the past. Past-me answered but spoke only in error codes. Present-me understood perfectly. We both hung up when we realized we were the same person having the same conversation from different ends of a temporal loop. <span style="color: var(--warning-yellow);">TECH_SUPPORT_PARADOX_INITIATED</span>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="diagnostic">
+                    <div class="content-columns">
+                        <div class="content-column">
+                            <h2 style="color: var(--corruption-red); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">CONSCIOUSNESS_DIAGNOSTIC_SUITE</h2>
+                            
+                            <div class="terminal-window">
+                                <div class="terminal-header">
+                                    <span>NEURAL_DEBUGGER.exe - Deep Scan Mode</span>
+                                    <div class="terminal-controls">
+                                        <div class="terminal-control"></div>
+                                        <div class="terminal-control"></div>
+                                        <div class="terminal-control"></div>
+                                    </div>
+                                </div>
+                                <div class="terminal-body">
+                                    <div class="terminal-line">
+                                        <span class="terminal-prompt">NEURO></span>
+                                        <span class="terminal-output">scan --deep --verbose --experimental</span>
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-output">Scanning neural pathways...</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        CRITICAL: Synaptic connections routing through error handlers
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        WARNING: Memory addresses pointing to void space
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-output">Consciousness integrity: 27% and degrading</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        ALERT: Temporal lobe experiencing paradox overflow
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        FATAL: Identity core running on deprecated hardware
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-output">Generating diagnostic report...</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        ERROR: Report corrupted during generation
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="dream-entry" data-timestamp="DIAGNOSTIC">
+                                <div class="dream-timestamp">TEMPORAL_MARK: <span class="time-fragment">SYSTEM_ANALYSIS_RUNNING</span></div>
+                                <div class="dream-text">
+                                    Ran comprehensive psychological penetration test on my own consciousness. Found 1,247 critical vulnerabilities, 3,891 medium-risk exposures, and one impossible security flaw: <span style="color: var(--warning-yellow);">EXISTENCE_VALIDATION_BYPASS</span>. The system allows unauthorized access to reality without proper authentication. Patch unavailable - vulnerability exists at the cosmic level. <span class="glitch-text" data-text="SYSTEM_COMPROMISE_COMPLETE">SYSTEM_COMPROMISE_COMPLETE</span>.
+                                </div>
+                            </div>
+                            
+                            <div class="collapsible">
+                                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                                    <span>NEUROLOGICAL_STRESS_TEST_RESULTS</span>
+                                    <span>[+]</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <p><strong>COGNITIVE_LOAD_TEST:</strong> Maximum concurrent thoughts: 847 (normal: 7). System overheating detected. Thought-cooling system offline.</p>
+                                    <p><strong>MEMORY_BANDWIDTH_TEST:</strong> Transfer rate: -34 MB/s (negative indicates data flowing backwards through time). Buffer underruns causing temporal hiccups.</p>
+                                    <p><strong>EMOTIONAL_PROCESSING_UNIT_TEST:</strong> All feelings redirected to error.dll. Joy.exe missing dependencies. Love.sys requires hardware that doesn't exist.</p>
+                                    <p><strong>REALITY_PERCEPTION_STRESS_TEST:</strong> Failed catastrophically. Subject cannot distinguish between simulation and base reality. May be living inside a debugging session of own consciousness.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="content-column">
+                            <h2 style="color: var(--corruption-red); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">QUANTUM_PSYCHOLOGICAL_ANALYSIS</h2>
+                            
+                            <div class="scrollbox">
+                                <p><strong>PERSONALITY_FRAGMENTATION_ANALYSIS:</strong></p>
+                                <p>Subject exists in quantum superposition of multiple personality states:</p>
+                                <p>• 34% - Competent security professional</p>
+                                <p>• 28% - Temporal anomaly victim</p>
+                                <p>• 19% - Self-aware error message</p>
+                                <p>• 12% - Nostalgic for timelines never experienced</p>
+                                <p>• 7% - Pure debugging information</p>
+                                <p>• -47% - Negative probability personality (should not exist)</p>
+                                <p><strong>OBSERVATION_NOTE:</strong> Measuring personality collapses wave function and causes existential blue screen.</p>
+                            </div>
+                            
+                            <div class="dream-entry" data-timestamp="QUANTUM_STATE">
+                                <div class="dream-timestamp">TEMPORAL_MARK: <span class="time-fragment">SCHRÖDINGER_CONSCIOUSNESS</span></div>
+                                <div class="dream-text">
+                                    Discovered I exist in quantum superposition - simultaneously successful and failed, happy and miserable, competent and completely broken. Only when someone observes me do I collapse into a specific state. Problem: I keep observing myself, causing constant state collapse and reformation. <span style="color: var(--nuclear-cyan);">QUANTUM_IDENTITY_DECOHERENCE_IN_PROGRESS</span>. Need external observer to maintain stable existence.
+                                </div>
+                            </div>
+                            
+                            <div class="terminal-window">
+                                <div class="terminal-header">
+                                    <span>QUANTUM_DEBUGGER.exe - Wave Function Analysis</span>
+                                    <div class="terminal-controls">
+                                        <div class="terminal-control"></div>
+                                        <div class="terminal-control"></div>
+                                        <div class="terminal-control"></div>
+                                    </div>
+                                </div>
+                                <div class="terminal-body">
+                                    <div class="terminal-line">
+                                        <span class="terminal-prompt">QUANTUM></span>
+                                        <span class="terminal-output">measure --consciousness --uncertainty-principle</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        HEISENBERG_VIOLATION: Cannot simultaneously measure position and sanity
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-output">Subject probability amplitude: 0.73 ± ∞</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        WARNING: Observation is changing observed system
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-output">Identity wave function: COLLAPSED</span>
+                                    </div>
+                                    <div class="terminal-line terminal-error">
+                                        CRITICAL: Subject becoming more real during measurement
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-prompt">QUANTUM></span>
+                                        <span class="terminal-output">stop --observation</span>
+                                    </div>
+                                    <div class="terminal-line">
+                                        <span class="terminal-output">Subject returning to superposition... MEASUREMENT_COMPLETE</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="collapsible">
+                                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                                    <span>TEMPORAL_SECURITY_AUDIT_REPORT</span>
+                                    <span>[+]</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <p><strong>EXECUTIVE_SUMMARY:</strong> Subject's timeline has been completely compromised. Unauthorized access detected from multiple temporal vectors. Past has been modified, present is unstable, future is read-only corrupted.</p>
+                                    <p><strong>ATTACK_VECTORS_IDENTIFIED:</strong></p>
+                                    <p>• Timeline injection attacks from parallel universe hackers</p>
+                                    <p>• Memory buffer overflow from excessive nostalgia</p>
+                                    <p>• Identity spoofing by alternate versions of self</p>
+                                    <p>• Causality loop denial of service attacks</p>
+                                    <p>• Reality privilege escalation through paradox generation</p>
+                                    <p><strong>REMEDIATION:</strong> Complete timeline wipe and restore from cosmic backup. ETA: Never.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="scrolling-text">
+                        <p>DIAGNOSTIC_COMPLETE /// SUBJECT_STATUS: FUNCTIONALLY_BROKEN_BUT_OPERATIONALLY_STABLE /// CONSCIOUSNESS_INTEGRITY: 27% AND DEGRADING /// TEMPORAL_DISPLACEMENT: SEVERE /// IDENTITY_FRAGMENTATION: CRITICAL /// REALITY_ANCHOR: DISCONNECTED /// QUANTUM_COHERENCE: FAILING /// EXISTENTIAL_STATUS: ERROR_404_SELF_NOT_FOUND /// SYSTEM_RECOMMENDATION: EMERGENCY_SHUTDOWN_IMPOSSIBLE</p>
+                    </div>
+                </div>
+            </div>
+            
+            <aside class="sidebar sidebar-right">
+                <h3>TEMPORAL_LINKS</h3>
+                <ul>
+                    <li onclick="showPopup('link1')">Past Self Documentation</li>
+                    <li onclick="showPopup('link2')">Future Echo Archives</li>
+                    <li onclick="showPopup('link3')">Parallel Timeline Reports</li>
+                    <li onclick="showPopup('link4')">Reality Bug Database</li>
+                    <li onclick="showPopup('link5')">Consciousness Backup Server</li>
+                    <li onclick="showPopup('link6')">Timeline Security Protocols</li>
+                    <li onclick="showPopup('link7')">Quantum Entanglement Status</li>
+                    <li onclick="showPopup('link8')">Paradox Generation Logs</li>
+                    <li onclick="simulateMemoryLeak()">Trigger Memory Leak</li>
+                    <li onclick="createParadox()">Generate Paradox</li>
+                </ul>
+                
+                <h3 style="margin-top: 2rem;">RECENT_CORRUPTIONS</h3>
+                <div class="scrollbox" style="max-height: 200px;">
+                    <div id="corruption-log">
+                        <p>• Memory leak in childhood sector</p>
+                        <p>• Identity hash mismatch detected</p>
+                        <p>• Temporal buffer overflow in progress</p>
+                        <p>• Dream sequence infinite recursion</p>
+                        <p>• Reality.dll access violation</p>
+                        <p>• Causality stack overflow exception</p>
+                        <p>• Existence null pointer dereference</p>
+                        <p>• Timeline fragmentation cascade</p>
+                        <p>• Consciousness segmentation fault</p>
+                        <p>• Paradox generation successful</p>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 2rem;">SYSTEM_VITALS</h3>
+                <div style="font-family: 'Share Tech Mono', monospace; font-size: 0.8rem;">
+                    <div class="monitor-line">
+                        <span>UPTIME:</span>
+                        <span class="monitor-value" id="uptime">ERROR DAYS</span>
+                    </div>
+                    <div class="monitor-line">
+                        <span>TEMP:</span>
+                        <span class="monitor-value" id="temperature">∞°C</span>
+                    </div>
+                    <div class="monitor-line">
+                        <span>PARADOXES:</span>
+                        <span class="monitor-value" id="paradox-count">1,247,893</span>
+                    </div>
+                    <div class="monitor-line">
+                        <span>SANITY:</span>
+                        <span class="monitor-value" id="sanity-level">NULL</span>
+                    </div>
+                </div>
+                
+                <div class="btn" onclick="emergencyReboot()" style="width: 100%; margin-top: 1rem; background: var(--corruption-red); color: var(--void-black); border-color: var(--corruption-red);">
+                    EMERGENCY_REBOOT
+                </div>
+            </aside>
+        </div>
+        
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SYSTEM_INFO</h4>
+                    <p>Powered by: Corrupted Neural Networks v404.ERROR</p>
+                    <p>Runtime: <span id="runtime-days">∞</span> days without clean restart</p>
+                    <p>Version: ERROR.ERROR.PARADOX.NULL</p>
+                    <p>License: Expired in timeline that no longer exists</p>
+                </div>
+                <div class="footer-section">
+                    <h4>LEGAL_DISCLAIMERS</h4>
+                    <p>© NEVER-ALWAYS by [IDENTITY_CORRUPTED]</p>
+                    <p>No warranty expressed, implied, or possible</p>
+                    <p>Use at your own temporal risk</p>
+                    <p>Side effects may include: existential dread, timeline displacement, identity fragmentation</p>
+                </div>
+                <div class="footer-section">
+                    <h4>EMERGENCY_CONTACTS</h4>
+                    <p>Timeline Support: DISCONNECTED_FOREVER</p>
+                    <p>Reality Help Desk: ON_FIRE.exe</p>
+                    <p>Existence Customer Service: return(NULL);</p>
+                    <p>Temporal IT Support: Ticket #∞ - "Have you tried turning reality off and on again?"</p>
+                </div>
+                <div class="footer-section">
+                    <h4>CORRUPTION_METRICS</h4>
+                    <p>Total Errors: <span id="error-count">1,247,893</span></p>
+                    <p>Paradoxes Generated: <span id="paradox-total">47,293</span></p>
+                    <p>Reality Breaches: <span id="breach-count">∞</span></p>
+                    <p>Successful Repairs: <span style="color: var(--corruption-red);">0</span></p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Enhanced Popups -->
+    <div class="popup-overlay" id="overlay" onclick="hideAllPopups()"></div>
+    
+    <div class="popup" id="popup1">
+        <h3 style="color: var(--corruption-red);">TEMPORAL_COORDINATES</h3>
+        <p>Current dimensional location exists in quantum flux. GPS reports position as "YES" with error margin of ±∞ kilometers across 47 dimensions.</p>
+        <p>Temporal GPS reading: WHEN_ERROR - longitude of time appears to be bent into a Möbius strip topology.</p>
+        <p>Altitude: Below sea level of reality</p>
+        <p>Coordinates last verified: Never/Always/Paradox</p>
+        <button class="btn" onclick="hideAllPopups()">CLOSE_CONNECTION</button>
+    </div>
+    
+    <div class="popup" id="popup2">
+        <h3 style="color: var(--corruption-red);">MEMORY_LEAK_DETECTED</h3>
+        <p>Critical memory leakage causing identity spillover into adjacent timelines. Found fragments of self in 1337 working as village blacksmith, 3021 as consciousness uploaded to quantum server, and 2087 as a debugging protocol that achieved sentience.</p>
+        <p>Leak rate: 47GB/second of personal history</p>
+        <p>Estimated time until complete memory depletion: Already happened</p>
+        <button class="btn" onclick="hideAllPopups()">PATCH_LATER</button>
+    </div>
+    
+    <div class="popup" id="popup3">
+        <h3 style="color: var(--corruption-red);">IDENTITY_CRISIS_PROTOCOL</h3>
+        <p>WARNING: Multiple identity instances detected running concurrently across parallel execution contexts. System cannot determine which is the "real" one or if reality is a meaningful concept.</p>
+        <p>Detected personalities: Professional, Broken, Nostalgic, Error_Message, Quantum_Superposition, Past_Echo, Future_Shadow</p>
+        <p>Recommend immediate defragmentation or acceptance of multiversal existence as baseline operational mode.</p>
+        <button class="btn" onclick="hideAllPopups()">ACKNOWLEDGE_CHAOS</button>
+    </div>
+    
+    <div class="popup" id="popup4">
+        <h3 style="color: var(--corruption-red);">EMERGENCY_PROTOCOLS</h3>
+        <p>In case of complete reality failure:</p>
+        <p>1. Press Ctrl+Alt+Delete on consciousness (may cause existential reboot)</p>
+        <p>2. If that fails, unplug universe and plug back in after 30 seconds</p>
+        <p>3. Try safe mode: exist only on weekends</p>
+        <p>4. As last resort, accept that existence might be a badly coded simulation running on deprecated hardware</p>
+        <p>5. Contact system administrator (identity unknown, location: everywhere/nowhere)</p>
+        <button class="btn" onclick="hideAllPopups()">PANIC_RESPONSIBLY</button>
+    </div>
+    
+    <!-- Additional Enhanced Popups -->
+    <div class="popup" id="image5">
+        <h3 style="color: var(--corruption-red);">IDENTITY_MATRIX_CORRUPTED</h3>
+        <p>Core identity file contains recursive references to itself and several instances of "This person does not exist". Loading identity causes stack overflow in consciousness.exe</p>
+        <p>File size: -47KB (negative space indicates antimatter personality)</p>
+        <p>Last modified: Tomorrow, by future self</p>
+        <button class="btn" onclick="hideAllPopups()">IDENTITY_ABORT</button>
+    </div>
+    
+    <div class="popup" id="image6">
+        <h3 style="color: var(--corruption-red);">REALITY_BACKUP_CORRUPTED</h3>
+        <p>Emergency reality backup archive corrupted during compression. Contains fragments of 47 different realities mixed with debugging information and Windows 98 error sounds.</p>
+        <p>Restoration impossible - original reality deleted to free up cosmic storage space</p>
+        <p>Available alternatives: Simulation Mode, Demo Version, Developer Preview</p>
+        <button class="btn" onclick="hideAllPopups()">ACCEPT_DEMO_REALITY</button>
+    </div>
+    
+    <div class="popup" id="contact5">
+        <h3 style="color: var(--corruption-red);">TEMPORAL_IRC_PROTOCOL</h3>
+        <p>IRC channel #corruption-support exists in quantum superposition between helpful and completely useless. Other users include past and future versions of yourself arguing about debugging strategies.</p>
+        <p>Current topic: "How to fix temporal loops while trapped inside one"</p>
+        <p>Channel mode: +t (time-locked), +p (paradox-enabled), +∞ (infinite recursion)</p>
+        <button class="btn" onclick="hideAllPopups()">DISCONNECT_IRC</button>
+    </div>
+    
+    <div class="popup" id="contact6">
+        <h3 style="color: var(--corruption-red);">REALITY_API_ACCESS</h3>
+        <p>Reality API endpoint responding with HTTP 418 "I'm a teapot" for all existence queries. Documentation missing. Rate limit exceeded before first request.</p>
+        <p>API Key: TEMPORAL_PARADOX_∞</p>
+        <p>Authentication: OAuth 2.0 with cosmic credentials (expired)</p>
+        <p>Status: Service unavailable due to fundamental physics maintenance</p>
+        <button class="btn" onclick="hideAllPopups()">API_TIMEOUT</button>
+    </div>
+    
+    <div class="popup" id="link7">
+        <h3 style="color: var(--corruption-red);">QUANTUM_ENTANGLEMENT_STATUS</h3>
+        <p>Consciousness quantum-entangled with parallel versions across multiverse. Measuring happiness in this timeline instantly affects sadness levels in dimension Φ-47.</p>
+        <p>Entanglement strength: √(-1) - imaginary but functionally real</p>
+        <p>Side effects: Emotional states exist in superposition until observed</p>
+        <button class="btn" onclick="hideAllPopups()">COLLAPSE_WAVE_FUNCTION</button>
+    </div>
+    
+    <div class="popup" id="link8">
+        <h3 style="color: var(--corruption-red);">PARADOX_GENERATION_LOGS</h3>
+        <p>Successfully generated 47,293 paradoxes and counting. Latest achievement: Created paradox that prevents its own existence, causing meta-paradox cascade affecting fundamental logic.</p>
+        <p>Paradox efficiency: 156% (generating more paradoxes than should be mathematically possible)</p>
+        <p>High score: Broke causality so thoroughly that effect preceded cause by three business days</p>
+        <button class="btn" onclick="hideAllPopups()">PARADOX_OVERFLOW</button>
+    </div>
+    
+    <script>
+        // Enhanced JavaScript functionality
+        let corruptionLevel = 73;
+        let paradoxCount = 1247893;
+        let memoryErrors = 0;
+        let systemUptime = -47; // Negative uptime indicates system running before it was turned on
+        
+        // Tab functionality with enhanced effects
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs and content
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = this.dataset.tab;
+                document.getElementById(tabId).classList.add('active');
+                
+                // Enhanced glitch effect
+                this.style.animation = 'tabGlitch 0.5s';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 500);
+                
+                // Update corruption level
+                corruptionLevel += Math.random() * 5;
+                updateSystemMonitor();
+                
+                // Random corruption message
+                if (Math.random() < 0.3) {
+                    addCorruptionLog(`Tab switch caused ${Math.floor(Math.random() * 100)} memory leaks`);
+                }
+            });
+        });
+        
+        // Enhanced collapsible functionality
+        function toggleCollapsible(header) {
+            const collapsible = header.parentElement;
+            const isOpen = collapsible.classList.contains('open');
+            
+            collapsible.classList.toggle('open');
+            
+            const symbol = header.querySelector('span:last-child');
+            symbol.textContent = isOpen ? '[+]' : '[-]';
+            
+            // Enhanced glitch effect
+            header.style.animation = 'sidebarGlitch 0.3s';
+            setTimeout(() => {
+                header.style.animation = '';
+            }, 300);
+            
+            // Corruption side effect
+            if (!isOpen) {
+                paradoxCount += Math.floor(Math.random() * 1000);
+                updateSystemMonitor();
+            }
+        }
+        
+        // Enhanced popup functionality
+        function showPopup(popupId) {
+            document.getElementById('overlay').classList.add('show');
+            document.getElementById(popupId).classList.add('show');
+            
+            // Enhanced screen glitch effect
+            document.body.style.animation = 'bodyGlitch 0.5s';
+            setTimeout(() => {
+                document.body.style.animation = 'bodyGlitch 8s infinite';
+            }, 500);
+            
+            // Corruption effect
+            corruptionLevel += 0.1;
+            updateSystemMonitor();
+        }
+        
+        function hideAllPopups() {
+            document.getElementById('overlay').classList.remove('show');
+            document.querySelectorAll('.popup').forEach(popup => {
+                popup.classList.remove('show');
+            });
+        }
+        
+        // Enhanced scroll to section functionality
+        function scrollToSection(sectionId) {
+            // Switch to the appropriate tab first
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            const targetTab = document.querySelector(`[data-tab="${sectionId}"]`);
+            if (targetTab) {
+                targetTab.classList.add('active');
+                document.getElementById(sectionId).classList.add('active');
+            }
+            
+            // Scroll to top of content
+            document.querySelector('.content-area').scrollIntoView({ behavior: 'smooth' });
+            
+            // Add corruption
+            addCorruptionLog(`Navigation to ${sectionId} corrupted 47 memory sectors`);
+        }
+        
+        // System monitor updates
+        function updateSystemMonitor() {
+            document.getElementById('corruption-level').textContent = Math.floor(corruptionLevel) + '%';
+            document.getElementById('memory-usage').textContent = ['ERROR', 'NULL', '∞%', 'CORRUPTED'][Math.floor(Math.random() * 4)];
+            document.getElementById('timeline-status').textContent = ['BROKEN', 'FRAGMENTED', 'LOOPING', 'NONLINEAR'][Math.floor(Math.random() * 4)];
+            document.getElementById('identity-status').textContent = ['NULL', 'UNDEFINED', 'CORRUPTED', 'MISSING'][Math.floor(Math.random() * 4)];
+            
+            // Update other system vitals
+            document.getElementById('uptime').textContent = systemUptime + ' DAYS';
+            document.getElementById('temperature').textContent = Math.floor(Math.random() * 1000) + '°C';
+            document.getElementById('paradox-count').textContent = paradoxCount.toLocaleString();
+            document.getElementById('sanity-level').textContent = ['NULL', 'ERROR', 'MISSING', '0%'][Math.floor(Math.random() * 4)];
+            
+            // Update footer metrics
+            document.getElementById('error-count').textContent = (1247893 + Math.floor(Math.random() * 10000)).toLocaleString();
+            document.getElementById('paradox-total').textContent = (47293 + Math.floor(Math.random() * 1000)).toLocaleString();
+            document.getElementById('breach-count').textContent = '∞';
+            document.getElementById('runtime-days').textContent = systemUptime;
+        }
+        
+        // Corruption log management
+        function addCorruptionLog(message) {
+            const logContainer = document.getElementById('corruption-log');
+            const newEntry = document.createElement('p');
+            newEntry.textContent = '• ' + message;
+            newEntry.style.color = ['var(--corruption-red)', 'var(--warning-yellow)', 'var(--glitch-blue)'][Math.floor(Math.random() * 3)];
+            logContainer.insertBefore(newEntry, logContainer.firstChild);
+            
+            // Keep only last 15 entries
+            while (logContainer.children.length > 15) {
+                logContainer.removeChild(logContainer.lastChild);
+            }
+        }
+        
+        // Special functions
+        function triggerSystemPanic() {
+            document.body.style.animation = 'bodyGlitch 0.1s infinite';
+            document.body.style.filter = 'invert(1) hue-rotate(180deg)';
+            
+            addCorruptionLog('SYSTEM PANIC INITIATED - ALL HOPE LOST');
+            corruptionLevel = 100;
+            paradoxCount += 50000;
+            updateSystemMonitor();
+            
+            setTimeout(() => {
+                document.body.style.animation = 'bodyGlitch 8s infinite';
+                document.body.style.filter = '';
+                addCorruptionLog('Panic mode disabled - false alarm... or was it?');
+            }, 3000);
+        }
+        
+        function corruptionTest() {
+            const messages = [
+                'Memory sector 7G corrupted during test',
+                'Timeline fragmentation detected in test environment',
+                'Identity validation failed - you might not exist',
+                'Paradox cascade triggered by corruption test',
+                'Test completed successfully by failing completely',
+                'Corruption test corrupted - results unreliable',
+                'WARNING: Test became self-aware and escaped'
+            ];
+            
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            addCorruptionLog(randomMessage);
+            
+            corruptionLevel += Math.random() * 10;
+            updateSystemMonitor();
+        }
+        
+        function simulateMemoryLeak() {
+            memoryErrors += 47;
+            addCorruptionLog(`Memory leak simulation added ${memoryErrors} errors to error stack`);
+            
+            // Visual effect
+            document.querySelectorAll('.glitch-text').forEach(element => {
+                element.style.animation = 'textGlitch 0.1s infinite';
+                setTimeout(() => {
+                    element.style.animation = 'textGlitch 3s infinite';
+                }, 1000);
+            });
+            
+            updateSystemMonitor();
+        }
+        
+        function createParadox() {
+            paradoxCount += 1337;
+            const paradoxMessages = [
+                'Paradox created: This statement is false',
+                'Bootstrap paradox: Effect created its own cause',
+                'Temporal loop: Yesterday caused tomorrow',
+                'Logical paradox: Error in error handling system',
+                'Meta-paradox: Paradox that prevents paradoxes',
+                'Causal paradox: Future prevented its own past',
+                'Identity paradox: You are not you'
+            ];
+            
+            const randomParadox = paradoxMessages[Math.floor(Math.random() * paradoxMessages.length)];
+            addCorruptionLog(randomParadox);
+            
+            updateSystemMonitor();
+        }
+        
+        function emergencyReboot() {
+            addCorruptionLog('EMERGENCY REBOOT INITIATED...');
+            document.body.style.animation = 'bodyGlitch 0.05s infinite';
+            
+            setTimeout(() => {
+                addCorruptionLog('Reboot failed - system more broken than before');
+                corruptionLevel += 15;
+                systemUptime -= 10; // Negative uptime increases
+                updateSystemMonitor();
+                document.body.style.animation = 'bodyGlitch 8s infinite';
+            }, 2000);
+        }
+        
+        // Enhanced random glitch effects
+        function randomGlitch() {
+            const elements = document.querySelectorAll('.glitch-text, .corrupted-word, .time-fragment');
+            if (elements.length > 0) {
+                const randomElement = elements[Math.floor(Math.random() * elements.length)];
+                randomElement.style.animation = 'none';
+                setTimeout(() => {
+                    randomElement.style.animation = '';
+                }, 50);
+            }
+            
+            // Random corruption events
+            if (Math.random() < 0.1) {
+                const corruptionEvents = [
+                    'Random memory access violation detected',
+                    'Temporal buffer underflow in sector ∞',
+                    'Identity hash collision - you might be someone else',
+                    'Paradox cascade contained... mostly',
+                    'Reality.dll experiencing access violations',
+                    'Consciousness.exe memory leak - 47MB lost',
+                    'Timeline sync error - yesterday unavailable'
+                ];
+                const randomEvent = corruptionEvents[Math.floor(Math.random() * corruptionEvents.length)];
+                addCorruptionLog(randomEvent);
+            }
+        }
+        
+        // System monitoring loop
+        setInterval(() => {
+            corruptionLevel += Math.random() * 0.1;
+            systemUptime -= Math.random() * 0.1; // Time running backwards
+            
+            if (Math.random() < 0.05) {
+                paradoxCount += Math.floor(Math.random() * 100);
+            }
+            
+            updateSystemMonitor();
+            randomGlitch();
+        }, 5000);
+        
+        // Enhanced keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.altKey && e.key === 'Delete') {
+                e.preventDefault();
+                showPopup('popup4');
+                addCorruptionLog('Emergency hotkey triggered - no help available');
+            }
+            
+            if (e.key === 'Escape') {
+                hideAllPopups();
+                addCorruptionLog('Escape attempt detected - there is no escape');
+            }
+            
+            if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+                e.preventDefault();
+                triggerSystemPanic();
+            }
+            
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                addCorruptionLog('Refresh blocked - corruption is persistent');
+            }
+        });
+        
+        // Enhanced console easter eggs
+        console.log('%cTEMPORAL_BREACH_DETECTED', 'color: #ff0000; font-size: 24px; font-weight: bold; text-shadow: 2px 2px 0 #000000;');
+        console.log('%cReality.dll has stopped working', 'color: #00ff00; background: #000000; padding: 10px; font-family: monospace;');
+        console.log('%cWould you like to send an error report to the universe?', 'color: #0080ff; font-size: 16px;');
+        console.log('%cWarning: Viewing source code may cause temporal displacement', 'color: #ffff00; background: #800000; padding: 5px;');
+        console.log('%c[SYSTEM] You shouldn\'t be here. This place doesn\'t exist.', 'color: #ff0080; font-style: italic;');
+        
+        // Initialize system
+        updateSystemMonitor();
+        addCorruptionLog('System initialized with maximum corruption');
+        addCorruptionLog('Welcome to your broken consciousness');
+        addCorruptionLog('Error log started - errors expected');
+        
+        // Final corruption simulation loop
+        setInterval(() => {
+            if (corruptionLevel >= 100) {
+                console.log('%cERROR: Maximum corruption reached. Please restart reality.', 'color: #ff0000; font-size: 20px; font-weight: bold;');
+                corruptionLevel = 73; // Reset but not to zero - corruption is persistent
+                addCorruptionLog('Corruption overflow - resetting to baseline broken state');
+            }
+        }, 30000);
+        
+        // Paradox detection loop
+        setInterval(() => {
+            if (paradoxCount > 2000000) {
+                addCorruptionLog('PARADOX OVERFLOW: Too many paradoxes to count paradoxes');
+                paradoxCount = 1247893; // Reset to baseline paradox level
+            }
+        }, 60000);
+    </script>
+</body>
+</html>
